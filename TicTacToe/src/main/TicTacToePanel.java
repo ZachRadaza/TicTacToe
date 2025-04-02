@@ -27,8 +27,11 @@ public class TicTacToePanel extends JLayeredPane implements ActionListener{
 	private JButton[] buttons;
 	private boolean[] buttonsClicked;
 	
-	private boolean turn; // true is player 1s turn
+	protected boolean turn; // true is player 1s turn
 	private boolean victorySwitch;
+	
+	protected int player1Score;
+	protected int player2Score;
 	
 	public TicTacToePanel(){
 		turn = true;
@@ -37,13 +40,15 @@ public class TicTacToePanel extends JLayeredPane implements ActionListener{
 		for(int i = 0; i < buttonsClicked.length; i++){
 			buttonsClicked[i] = false;
 		}
+		player1Score = 0;
+		player2Score = 0;
 		
 		this.setBackground(bg);
-		this.setPreferredSize(new Dimension(720, 720));
+		this.setPreferredSize(new Dimension(720, 650));
 		
 		JPanel panelBG = panelBG();
 		panelBG.setBounds(0, 0, 720, 720);
-		panelBG.setMaximumSize(new Dimension(720, 720));
+		panelBG.setMaximumSize(new Dimension(720, 650));
 		this.add(panelBG, JLayeredPane.DEFAULT_LAYER);
 		
 		JPanel panelFG = panelFG();
@@ -84,16 +89,16 @@ public class TicTacToePanel extends JLayeredPane implements ActionListener{
 	//checks turn and pastes icon
 	private void checkTurn(int butt){
 		if(buttonsClicked[butt]) return;
-		if(turn){
-			buttons[butt].setIcon(new ImageIcon("media/game/o.png"));
-		} else{
-			buttons[butt].setIcon(new ImageIcon("media/game/x.png"));
-		}
+		if(turn) buttons[butt].setIcon(new ImageIcon("media/game/o.png"));
+		else buttons[butt].setIcon(new ImageIcon("media/game/x.png"));
+		
 		buttonsClicked[butt] = true;
 		turn = !turn;
 		TTTGameLogic.add(butt, turn);
 		if(!checkWin())
 			checkDraw();
+		
+		ScreenTicTacToe.turnUpdate(turn);
 	}
 	
 	private boolean checkWin(){
@@ -122,8 +127,15 @@ public class TicTacToePanel extends JLayeredPane implements ActionListener{
 		panelSlash.setOpaque(false);
 		
 		//added ! because it flips turn during check turn
-		if(!turn) panelWin.add(new JLabel(new ImageIcon("media/game/Player1Wins.png")));
-		else panelWin.add(new JLabel(new ImageIcon("media/game/Player2Wins.png")));
+		if(!turn) {
+			panelWin.add(new JLabel(new ImageIcon("media/game/Player1Wins.png")));
+			player1Score++;
+			ScreenTicTacToe.player1ScoreUpdate(player1Score);
+		} else { 
+			panelWin.add(new JLabel(new ImageIcon("media/game/Player2Wins.png")));
+			player2Score++;
+			ScreenTicTacToe.player2ScoreUpdate(player2Score);
+		}
 		
 		panelWin.setBackground(null);
 		panelWin.setBounds(0, 0, 720, 720);
@@ -159,6 +171,8 @@ public class TicTacToePanel extends JLayeredPane implements ActionListener{
 					buttons[i].setIcon(null);
 					victorySwitch = !victorySwitch;
 					TTTGameLogic.reset();
+					panel1.setVisible(false);
+					panel2.setVisible(false);
 					remove(panel1);
 					remove(panel2);
 				}
