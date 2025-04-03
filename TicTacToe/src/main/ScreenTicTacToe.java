@@ -2,25 +2,28 @@ package main;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
-import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.Rectangle;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
-import javax.swing.BorderFactory;
-import javax.swing.Box;
 import javax.swing.BoxLayout;
+import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
-import javax.swing.border.Border;
 
-public class ScreenTicTacToe extends JPanel{
+public class ScreenTicTacToe extends JPanel implements ActionListener{
 	
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
 	private final Color bg = new Color(42, 52, 146);
+	
+	private static JButton back;
+	
+	private static TicTacToePanel tttPanel;
 	
 	private static JPanel player1;
 	private static JLabel score1;
@@ -33,17 +36,10 @@ public class ScreenTicTacToe extends JPanel{
 		
 		this.setBounds(0, 0, 800, 800);
 		this.setBackground(bg);
-		//this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
-		
-		TicTacToePanel tttPanel = new TicTacToePanel();
-		tttPanel.setBounds(new Rectangle(720, 650));
+
+		tttPanel = new TicTacToePanel();
+		tttPanel.setBounds(new Rectangle(720, 670));
 		this.add(tttPanel);
-		
-		/*
-		JLabel test = new JLabel("hiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiii");
-		test.setFont(new Font("Dialog", Font.BOLD, 40));
-		this.add(test);
-		*/
 		
 		this.add(setScoreboard(tttPanel.player1Score, tttPanel.player2Score, tttPanel.turn));
 		
@@ -119,16 +115,25 @@ public class ScreenTicTacToe extends JPanel{
 	private JPanel setTurn(){
 		turnShower = new JPanel();
 		turnShower.setBackground(null);
+		turnShower.setLayout(new BoxLayout(turnShower, BoxLayout.Y_AXIS));
 		
-		turn = new JLabel("Player 1's Turn");
+		turn = new JLabel("    Player 1's Turn    ");
 		
 		turn.setFont(new Font("Dialog", Font.BOLD, 30));
 		turn.setForeground(Color.WHITE);
 		turn.setAlignmentX(CENTER_ALIGNMENT);
-		turn.setAlignmentY(CENTER_ALIGNMENT);
 		
 		turnShower.add(turn);
 		turnShower.setMinimumSize(new Dimension(250, 80));
+		
+		back = new JButton();
+		JLabel label = new JLabel("Back to Main Menu");
+		label.setFont(new Font("Dialog", Font.PLAIN, 15));
+		back.add(label);
+		back.addActionListener(this);
+		back.setAlignmentX(CENTER_ALIGNMENT);
+		
+		turnShower.add(back);
 		
 		return turnShower;
 	}
@@ -162,18 +167,30 @@ public class ScreenTicTacToe extends JPanel{
 	}
 	
 	protected static void turnUpdate(boolean turnBoolean){
-		turnShower.remove(turn);
+		turnShower.removeAll();
 		turn.removeAll();
 		
-		if(turnBoolean) turn = new JLabel("Player 1's Turn");
-		else turn = new JLabel("Player 2's Turn");
+		if(turnBoolean) turn = new JLabel("    Player 1's Turn    ");
+		else turn = new JLabel("    Player 2's Turn    ");
 		
 		turn.setFont(new Font("Dialog", Font.BOLD, 30));
 		turn.setForeground(Color.WHITE);
 		turn.setAlignmentX(CENTER_ALIGNMENT);
-		turn.setAlignmentY(CENTER_ALIGNMENT);
 		
 		turnShower.add(turn);
-		
+		turnShower.add(back);
+	}
+
+	@Override
+	public void actionPerformed(ActionEvent e) {
+		// TODO Auto-generated method stub
+		if(e.getSource() == back){
+			this.setVisible(false);
+			TTTGameLogic.reset();
+			//TTTGameLogic.reset();
+			TTTGameLogic.setVictory(false);
+			this.remove(this);
+			Game.start();
+		}
 	}
 }

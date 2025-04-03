@@ -24,7 +24,7 @@ public class Game{
 	}
 	
 	protected static void singlePlayer(){
-		ScreenTicTacToe ttt = new ScreenTicTacToe();
+		SinglePlayer ttt = new SinglePlayer();
 		frame.add(ttt);
 	}
 	

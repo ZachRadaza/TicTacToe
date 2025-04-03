@@ -28,7 +28,7 @@ public class TicTacToePanel extends JLayeredPane implements ActionListener{
 	private boolean[] buttonsClicked;
 	
 	protected boolean turn; // true is player 1s turn
-	private boolean victorySwitch;
+	protected boolean victorySwitch;
 	
 	protected int player1Score;
 	protected int player2Score;
@@ -44,11 +44,11 @@ public class TicTacToePanel extends JLayeredPane implements ActionListener{
 		player2Score = 0;
 		
 		this.setBackground(bg);
-		this.setPreferredSize(new Dimension(720, 650));
+		this.setPreferredSize(new Dimension(720, 670));
 		
 		JPanel panelBG = panelBG();
 		panelBG.setBounds(0, 0, 720, 720);
-		panelBG.setMaximumSize(new Dimension(720, 650));
+		panelBG.setMaximumSize(new Dimension(720, 670));
 		this.add(panelBG, JLayeredPane.DEFAULT_LAYER);
 		
 		JPanel panelFG = panelFG();

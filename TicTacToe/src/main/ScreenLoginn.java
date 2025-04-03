@@ -60,9 +60,11 @@ public class ScreenLoginn extends JPanel implements ActionListener{
 	public void actionPerformed(ActionEvent e){
 		if(e.getSource() == singlePlayer){
 			this.setVisible(false);
+			this.remove(this);
 			Game.singlePlayer();
 		} else if(e.getSource() == twoPlayer){
 			this.setVisible(false);
+			this.remove(this);
 			Game.twoPlayer();
 		}
 	}

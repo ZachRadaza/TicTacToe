@@ -14,6 +14,7 @@ public class TTTGameLogic{
 		if(check()){ //if they win, reset everything
 			reset();
 		}
+		System.out.println(board[0][0] + "|" + board[1][0] + "|" + board[2][0] + "\n" + board[0][1] + "|" +board[1][1] + "|" +board[2][1] + "\n" + board[0][2] + "|" +board[1][2] + "|" + board[2][2]);
 		
 	}
 	
@@ -32,7 +33,7 @@ public class TTTGameLogic{
 					break;
 				}
 			}
-			if(lineCheck) return true;
+			if(lineCheck && temp != 0) return true;
 		}
 		
 		for(int i = 0; i < 3; i++){ //checks horizontally
@@ -48,7 +49,7 @@ public class TTTGameLogic{
 					break;
 				}
 			}
-			if(lineCheck) return true;
+			if(lineCheck && temp != 0) return true;
 		}
 		
 		temp = board[0][0];
@@ -80,6 +81,10 @@ public class TTTGameLogic{
 	
 	public static int getWinCondition(){
 		return winCondition;
+	}
+	
+	public static void setVictory(boolean condition){
+		victorySwitch = condition;
 	}
 	//too lazy to think so I hard Coded it
 	private static int xConverter(int i){
