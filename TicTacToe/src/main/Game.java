@@ -24,12 +24,12 @@ public class Game{
 	}
 	
 	protected static void singlePlayer(){
-		SinglePlayer ttt = new SinglePlayer();
+		ScreenTicTacToe ttt = new ScreenTicTacToe(true, "Computer's Score:", "    Computer's Turn    ");
 		frame.add(ttt);
 	}
 	
 	protected static void twoPlayer(){
-		ScreenTicTacToe ttt = new ScreenTicTacToe();
+		ScreenTicTacToe ttt = new ScreenTicTacToe(false, "Player 2's Turn", "    Player 2's Turn    ");
 		frame.add(ttt);
 	}
 }

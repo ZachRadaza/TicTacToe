@@ -21,6 +21,8 @@ public class ScreenTicTacToe extends JPanel implements ActionListener{
 	private static final long serialVersionUID = 1L;
 	private final Color bg = new Color(42, 52, 146);
 	
+	private static String turnPlayer2;
+	
 	private static JButton back;
 	
 	private static TicTacToePanel tttPanel;
@@ -32,21 +34,22 @@ public class ScreenTicTacToe extends JPanel implements ActionListener{
 	private static JPanel turnShower;
 	private static JLabel turn;
 	
-	public ScreenTicTacToe(){
+	public ScreenTicTacToe(boolean computer, String player2String, String player2TurnString){
+		ScreenTicTacToe.turnPlayer2 = player2TurnString;
 		
 		this.setBounds(0, 0, 800, 800);
 		this.setBackground(bg);
 
-		tttPanel = new TicTacToePanel();
+		tttPanel = new TicTacToePanel(computer);
 		tttPanel.setBounds(new Rectangle(720, 670));
 		this.add(tttPanel);
 		
-		this.add(setScoreboard(tttPanel.player1Score, tttPanel.player2Score, tttPanel.turn));
+		this.add(setScoreboard(tttPanel.player1Score, tttPanel.player2Score, tttPanel.turn, player2String));
 		
 		this.setVisible(true);
 	}
 	
-	private JPanel setScoreboard(int player1Score, int player2Score, boolean turn){
+	private JPanel setScoreboard(int player1Score, int player2Score, boolean turn, String player2String){
 		JPanel main = new JPanel();
 		main.setLayout(new BorderLayout());
 		main.setBackground(null);
@@ -60,7 +63,7 @@ public class ScreenTicTacToe extends JPanel implements ActionListener{
 		turnShower.setBounds(new Rectangle(233, 80));
 		main.add(turnShower, BorderLayout.CENTER);
 		
-		player2 = setScorePlayer2();
+		player2 = setScorePlayer2(player2String);
 		player1.setBounds(new Rectangle(233, 80));
 		main.add(player2, BorderLayout.EAST);
 		
@@ -90,12 +93,12 @@ public class ScreenTicTacToe extends JPanel implements ActionListener{
 		return panel;
 	}
 	
-	private JPanel setScorePlayer2(){
+	private JPanel setScorePlayer2(String player2String){
 		JPanel panel = new JPanel();
 		panel.setBackground(null);
 		panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
 		
-		JLabel name = new JLabel("Player 2 Score");
+		JLabel name = new JLabel(player2String);
 		name.setFont(new Font("Dialog", Font.BOLD, 30));
 		name.setForeground(Color.WHITE);
 		name.setAlignmentX(CENTER_ALIGNMENT);
@@ -170,8 +173,9 @@ public class ScreenTicTacToe extends JPanel implements ActionListener{
 		turnShower.removeAll();
 		turn.removeAll();
 		
-		if(turnBoolean) turn = new JLabel("    Player 1's Turn    ");
-		else turn = new JLabel("    Player 2's Turn    ");
+		if(turnBoolean) {
+			turn = new JLabel("    Player 1's Turn    ");
+		} else turn = new JLabel(turnPlayer2);
 		
 		turn.setFont(new Font("Dialog", Font.BOLD, 30));
 		turn.setForeground(Color.WHITE);
@@ -179,6 +183,8 @@ public class ScreenTicTacToe extends JPanel implements ActionListener{
 		
 		turnShower.add(turn);
 		turnShower.add(back);
+		turnShower.revalidate();
+		turnShower.repaint();
 	}
 
 	@Override

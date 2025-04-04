@@ -30,10 +30,16 @@ public class TicTacToePanel extends JLayeredPane implements ActionListener{
 	protected boolean turn; // true is player 1s turn
 	protected boolean victorySwitch;
 	
+	private boolean computer;
+	private boolean computerSwitch;
+	
 	protected int player1Score;
 	protected int player2Score;
 	
-	public TicTacToePanel(){
+	public TicTacToePanel(boolean computer){
+		this.computer = computer;
+		this.computerSwitch = true;
+		
 		turn = true;
 		victorySwitch = false;
 		buttonsClicked = new boolean[9];
@@ -99,6 +105,9 @@ public class TicTacToePanel extends JLayeredPane implements ActionListener{
 			checkDraw();
 		
 		ScreenTicTacToe.turnUpdate(turn);
+		
+		if(computerSwitch) computer();
+		else computerSwitch = true;
 	}
 	
 	private boolean checkWin(){
@@ -159,6 +168,28 @@ public class TicTacToePanel extends JLayeredPane implements ActionListener{
 		this.add(panelDraw, JLayeredPane.POPUP_LAYER);
 		
 		reset(panelDraw, temp);
+	}
+	
+	private void computer(){
+		if(computer){
+			
+			Timer timer = new Timer();
+			TimerTask task = new TimerTask() {
+				@Override
+				public void run(){
+					int buttonClick = 0;
+					
+					do{
+						do{
+						buttonClick = (int) (Math.random() * 10);
+						} while(buttonClick > 8);
+					} while(buttonsClicked[buttonClick]);
+					computerSwitch = false;
+					buttons[buttonClick].doClick();
+				}
+			};
+			timer.schedule(task, 1000);
+		}
 	}
 	
 	private void reset(JPanel panel1, JPanel panel2){
