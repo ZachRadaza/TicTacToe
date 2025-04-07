@@ -141,9 +141,15 @@ public class TicTacToePanel extends JLayeredPane implements ActionListener{
 			player1Score++;
 			ScreenTicTacToe.player1ScoreUpdate(player1Score);
 		} else { 
-			panelWin.add(new JLabel(new ImageIcon("media/game/Player2Wins.png")));
-			player2Score++;
-			ScreenTicTacToe.player2ScoreUpdate(player2Score);
+			if(computer){
+				panelWin.add(new JLabel(new ImageIcon("media/game/ComputerWins.png")));
+				player2Score++;
+				ScreenTicTacToe.player2ScoreUpdate(player2Score);
+			} else{
+				panelWin.add(new JLabel(new ImageIcon("media/game/Player2Wins.png")));
+				player2Score++;
+				ScreenTicTacToe.player2ScoreUpdate(player2Score);
+			}
 		}
 		
 		panelWin.setBackground(null);
